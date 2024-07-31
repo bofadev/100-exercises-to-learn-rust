@@ -1,3 +1,6 @@
 [workspace]
 members = ["exercises/*/*", "helpers/common", "helpers/mdbook-exercise-linker", "helpers/ticket_fields", "vs_code/hello_vs_rust"]
 resolver = "2"
+
+# [profile.dev]
+# overflow-checks = false     # Disable integer overflow checks.
