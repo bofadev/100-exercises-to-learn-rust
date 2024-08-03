@@ -421,6 +421,9 @@ dependencies = [
 [[package]]
 name = "deps"
 version = "0.1.0"
+dependencies = [
+ "anyhow",
+]
 
 [[package]]
 name = "deref"
@@ -1374,6 +1377,10 @@ version = "0.1.0"
 [[package]]
 name = "outro_04"
 version = "0.1.0"
+dependencies = [
+ "thiserror",
+ "unicode-segmentation",
+]
 
 [[package]]
 name = "outro_08"
@@ -2077,6 +2084,7 @@ name = "thiserror_"
 version = "0.1.0"
 dependencies = [
  "common",
+ "thiserror",
 ]
 
 [[package]]
@@ -2219,6 +2227,9 @@ checksum = "e421abadd41a4225275504ea4d6566923418b7f05506fbc9c0fe86ba7396114b"
 [[package]]
 name = "tryfrom"
 version = "0.1.0"
+dependencies = [
+ "thiserror",
+]
 
 [[package]]
 name = "tungstenite"
@@ -2287,6 +2298,12 @@ checksum = "a56d1686db2308d901306f92a263857ef59ea39678a5458e7cb17f01415101f5"
 dependencies = [
  "tinyvec",
 ]
+
+[[package]]
+name = "unicode-segmentation"
+version = "1.11.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d4c87d22b6e3f4a18d4d40ef354e97c90fcb14dd91d7dc0aa9d8a1172ebf7202"
 
 [[package]]
 name = "unwrap"

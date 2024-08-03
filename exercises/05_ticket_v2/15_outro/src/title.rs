@@ -2,7 +2,52 @@
 //   enforcing that the title is not empty and is not longer than 50 characters.
 //   Implement the traits required to make the tests pass too.
 
+use thiserror::Error;
+use unicode_segmentation::UnicodeSegmentation;
+
+#[derive(Error, Debug)]
+pub enum TicketTitleError {
+    #[error("The title cannot be empty")]
+    ZeroLength,
+    #[error("The title cannot be longer than 50 bytes")]
+    TooManyCharacters,
+}
+
+fn validate_title(value: String) -> Result<TicketTitle, TicketTitleError> {
+    
+    if value.len() == 0 {
+        return Err(TicketTitleError::ZeroLength);
+    }
+    
+    if value.graphemes(true).count() > 50 {
+        return Err(TicketTitleError::TooManyCharacters);
+    }
+
+    Ok(TicketTitle(value))
+}
+
+#[derive(Debug, PartialEq, Clone)]
 pub struct TicketTitle(String);
+
+impl TryFrom<String> for TicketTitle {
+    type Error = TicketTitleError;
+    fn try_from(value: String) -> Result<Self, Self::Error> {
+        match validate_title(value) {
+            Ok(result) => Ok(result),
+            Err(error) => Err(error),
+        }
+    }
+}
+
+impl TryFrom<&str> for TicketTitle {
+    type Error = TicketTitleError;
+    fn try_from(value: &str) -> Result<Self, Self::Error> {
+        match validate_title(value.to_string()) {
+            Ok(result) => Ok(result),
+            Err(error) => Err(error),
+        }
+    }
+}
 
 #[cfg(test)]
 mod tests {

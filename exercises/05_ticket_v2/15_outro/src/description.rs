@@ -2,7 +2,52 @@
 //   enforcing that the description is not empty and is not longer than 500 bytes.
 //   Implement the traits required to make the tests pass too.
 
+use thiserror::Error;
+use unicode_segmentation::UnicodeSegmentation;
+
+#[derive(Error, Debug)]
+pub enum TicketDescriptionError {
+    #[error("The description cannot be empty")]
+    ZeroLength,
+    #[error("The description cannot be longer than 500 bytes")]
+    TooManyCharacters,
+}
+
+#[derive(Debug, PartialEq, Clone)]
 pub struct TicketDescription(String);
+
+fn validate_description(value: String) -> Result<TicketDescription, TicketDescriptionError> {
+    
+    if value.len() == 0 {
+        return Err(TicketDescriptionError::ZeroLength);
+    }
+    
+    if value.graphemes(true).count() > 500 {
+        return Err(TicketDescriptionError::TooManyCharacters);
+    }
+
+    Ok(TicketDescription(value))
+}
+
+impl TryFrom<String> for TicketDescription {
+    type Error = TicketDescriptionError;
+    fn try_from(value: String) -> Result<Self, Self::Error> {
+        match validate_description(value) {
+            Ok(result) => Ok(result),
+            Err(error) => Err(error),
+        }
+    }
+}
+
+impl TryFrom<&str> for TicketDescription {
+    type Error = TicketDescriptionError;
+    fn try_from(value: &str) -> Result<Self, Self::Error> {
+        match validate_description(value.to_string()) {
+            Ok(result) => Ok(result),
+            Err(error) => Err(error),
+        }
+    }
+}
 
 #[cfg(test)]
 mod tests {
